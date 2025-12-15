@@ -2,24 +2,27 @@
 
 **Symmetry-Driven Coherence Restoration: Core Implementation**
 
-A reference implementation for exploring symmetry-selection mechanisms in open quantum systems. This software provides tools to model, compare, and validate SDCR effects within standard open-system quantum dynamics frameworks.
+A reference implementation for exploring symmetry-selection mechanisms in open quantum systems.  
+This software provides tools to model, compare, and validate SDCR effects within standard open-system quantum dynamics frameworks.
 
 ---
 
 ## White Paper
 
-For the complete theoretical foundation, mathematical derivations, and phenomenological predictions, see our white paper:
+For the complete theoretical foundation, mathematical derivations, and phenomenological predictions, see:
 
-**[Symmetry-Driven Coherence Restoration: Geometric Phase Control, Open-System Dynamics, and Phenomenological Signatures](https://zenodo.org/records/17942413)**
+**Symmetry-Driven Coherence Restoration: Geometric Phase Control, Open-System Dynamics, and Phenomenological Signatures**
 
-Krüger, M., & Feeney, D. (2025). *Symmetry-Driven Coherence Restoration: Geometric Phase Control, Open-System Dynamics, and Phenomenological Signatures*. Zenodo. https://doi.org/10.5281/zenodo.17942413
+Krüger, M., & Feeney, D. (2025).  
+*Symmetry-Driven Coherence Restoration: Geometric Phase Control, Open-System Dynamics, and Phenomenological Signatures.*  
+Zenodo. https://doi.org/10.5281/zenodo.17942413
 
 ---
 
 ## Conceptual Basis
 
-SDCR is not a new dynamical law.  
-It is a **symmetry-selection mechanism** acting on the *reduced dynamics* of open quantum systems.
+SDCR is **not a new dynamical law**.  
+It is a **symmetry-selection mechanism** acting on the reduced dynamics of open quantum systems.
 
 Within standard formulations (e.g. Lindblad, Redfield), SDCR operates by:
 
@@ -37,16 +40,16 @@ All dynamics remain fully compatible with conventional open-system quantum theor
 This repository provides tools to:
 
 - Define open quantum system dynamics using standard generators (initially Lindblad-type models)
-- Apply explicit **symmetry-selection operators** (Πₛᵧₘ) to reduced dynamics
+- Apply explicit symmetry-selection operators (Πₛᵧₘ) to reduced dynamics
 - Compare baseline decoherence against symmetry-aligned evolution
 - Extract observable quantities such as:
   - coherence decay rates
   - bounded phase offsets
   - Liouvillian spectral changes (where applicable)
-- Demonstrate the **recovery limit**, where SDCR effects vanish when symmetry alignment is disabled
+- Demonstrate the recovery limit, where SDCR effects vanish when symmetry alignment is disabled
 - Generate clear, parameter-controlled null tests suitable for independent verification
 
-The implementation emphasizes clarity, traceability, and falsifiability over performance or optimization.
+The implementation emphasizes **clarity, traceability, and falsifiability** over performance or optimization.
 
 ---
 
@@ -127,7 +130,7 @@ Every SDCR effect implemented here:
 - Produces predictions that vanish in the symmetry-free limit
 - Can be tested against null results without ambiguity
 
-The software is intended to make disagreement *easy and rigorous*, not to enforce a particular interpretation.
+The software is intended to make disagreement **easy and rigorous**, not to enforce a particular interpretation.
 
 ---
 
@@ -150,4 +153,4 @@ This software is released under the **MIT License**, to encourage open scientifi
 
 If you use this software in academic work, please cite:
 
-Krüger, M., & Feeney, D. (2025). *Symmetry-Driven Coherence Restoration: Geometric Phase Control* [Citation details to be completed]
+Krüger, M., & Feeney, D. (2025). *Symmetry-Driven Coherence Restoration: Geometric Phase Control, Open-System Dynamics, and Phenomenological Signatures.* Zenodo. https://doi.org/10.5281/zenodo.17942413
