@@ -70,50 +70,52 @@ Any algebraic structures (e.g. quaternionic or octonionic bookkeeping) are used 
 
 ## Repository Structure
 
-The repository is organized to separate core SDCR logic from domain-specific representations and optional internal algebraic bookkeeping.
+The repository is organized to separate the core SDCR framework from domain-specific phenomenology, examples, and optional internal algebraic bookkeeping.
 
 ```text
 sdcr-core/
 │
+├── sdcr_core/
+│   ├── __init__.py
+│   │
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── observables.py     # Coherence and phase extraction
+│   │   └── utils.py           # Shared helpers and validation
+│   │
+│   ├── algebra/
+│   │   ├── __init__.py
+│   │   ├── quaternionic.py    # Internal phase-channel bookkeeping
+│   │   └── octonionic.py      # Optional non-associative organization
+│   │
+│   ├── domains/
+│   │   ├── __init__.py
+│   │   │
+│   │   ├── interferometry/
+│   │   │   ├── __init__.py
+│   │   │   ├── models.py      # Interferometer phase models
+│   │   │   ├── runs.py        # Baseline vs SDCR comparison
+│   │   │   └── plots.py       # Phase and visibility plots
+│   │   │
+│   │   └── neutrinos/
+│   │       ├── __init__.py
+│   │       ├── models.py      # Two-flavor oscillation models
+│   │       ├── runs.py        # L/E scaling with SDCR offset
+│   │       └── plots.py       # Phase residuals and null tests
+│   │
+│   ├── examples/
+│   │   ├── __init__.py
+│   │   ├── lindblad_basic.py
+│   │   ├── null_test.py
+│   │   ├── neutron_lifetime_sdcr.py
+│   │   └── parameter_sweep.py
+│   │
+│   └── tests/
+│       ├── __init__.py
+│       └── test_core_sanity.py
+│
 ├── README.md
 ├── LICENSE
-│
-├── core/
-│   ├── __init__.py
-│   ├── dynamics.py        # Open-system generators (Lindblad)
-│   ├── symmetry.py        # Symmetry selectors Π_sym
-│   ├── observables.py     # Coherence and phase extraction
-│   ├── recovery.py        # Explicit recovery / null-limit logic
-│   └── utils.py           # Shared helpers and validation
-│
-├── domains/
-│   ├── interferometry/
-│   │   ├── __init__.py
-│   │   ├── model.py       # Interferometer phase models
-│   │   ├── run.py         # Baseline vs SDCR comparison
-│   │   └── plots.py       # Phase and visibility plots
-│   │
-│   └── neutrinos/
-│       ├── __init__.py
-│       ├── model.py       # Toy neutrino oscillation mapping
-│       ├── run.py         # L/E scaling + SDCR offset
-│       └── plots.py       # Phase residuals and null tests
-│
-├── algebra/
-│   ├── __init__.py
-│   ├── quaternionic.py    # Internal phase-channel bookkeeping
-│   └── octonionic.py      # Optional non-associative organization
-│
-├── examples/
-│   ├── lindblad_basic.py  # Minimal SDCR demonstration
-│   ├── null_test.py       # Recovery-limit validation
-│   └── parameter_sweep.py
-│
-├── tests/
-│   ├── test_recovery.py
-│   ├── test_symmetry.py
-│   └── test_observables.py
-│
 └── requirements.txt
 ```
 
@@ -136,10 +138,29 @@ The software is intended to make disagreement **easy and rigorous**, not to enfo
 
 ## Project Status
 
-This repository is under **active development** and reflects the first complete software realization of the SDCR framework.
+This repository represents the first stable software realization of the SDCR framework and will continue to evolve incrementally as validation and feedback accumulate.
 
-The current focus is correctness, transparency, and alignment with the published theory.  
-Interfaces, structure, and documentation may evolve as validation and feedback accumulate.
+The current focus is correctness, transparency, and alignment with the published theory. Interfaces and internal structure may evolve cautiously as new validated use cases emerge.
+
+---
+
+## Running the Software
+
+All examples and domain demonstrations are designed to run directly from the repository root using Python's module execution.
+
+First, install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Then run examples:
+
+```bash
+python -m sdcr_core.examples.lindblad_basic
+python -m sdcr_core.examples.null_test
+python -m sdcr_core.domains.interferometry.runs
+```
 
 ---
 
