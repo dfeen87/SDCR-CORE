@@ -2,31 +2,37 @@
 SDCR CORE — Neutron Lifetime Discrepancy Example
 ================================================
 
-This example implements Appendix D:
+Implements Appendix D:
 "HLV-SDCR as a Geometric Interpretation of the Neutron Lifetime Discrepancy"
 
-The model does NOT modify the intrinsic neutron decay constant.
-Instead, it demonstrates how symmetry- and kinematics-dependent
-SDCR geometric bias terms can produce different *measured* lifetimes
-for bottle and beam experiments.
+This example demonstrates how symmetry-dependent reduced dynamics
+can produce different *measured* neutron lifetimes in bottle and beam
+experiments without modifying the intrinsic decay constant.
 
-No new particles. No exotic decay channels. No beyond-SM forces.
+No new particles.
+No exotic decay channels.
+No beyond-Standard-Model forces.
 
-This file is intended as a first concrete, falsifiable SDCR exemplar.
+This file serves as a first concrete, falsifiable SDCR exemplar.
 """
 
 from dataclasses import dataclass
 import numpy as np
-import matplotlib.pyplot as plt
+
+from parameter_sweep import (
+    SweepConfig,
+    run_parameter_sweep,
+    plot_sweep,
+)
 
 # ---------------------------------------------------------------------
-# Core data structures
+# Parameter definition
 # ---------------------------------------------------------------------
 
 @dataclass(frozen=True)
 class NeutronLifetimeParameters:
     """
-    Parameters controlling the SDCR geometric bias model.
+    Parameters governing the SDCR geometric bias model.
     """
     tau_intrinsic: float = 887.0        # seconds (SM-consistent baseline)
     epsilon: float = 1.0e-4             # SDCR geometric modulation strength
@@ -35,7 +41,7 @@ class NeutronLifetimeParameters:
 
 
 # ---------------------------------------------------------------------
-# SDCR effective lifetime model
+# SDCR effective lifetime models
 # ---------------------------------------------------------------------
 
 def effective_lifetime_bottle(params: NeutronLifetimeParameters) -> float:
@@ -61,12 +67,12 @@ def effective_lifetime_beam(params: NeutronLifetimeParameters) -> float:
 
 
 # ---------------------------------------------------------------------
-# Simulation + reporting
+# Single-point demonstration
 # ---------------------------------------------------------------------
 
 def run_single_point_demo(params: NeutronLifetimeParameters) -> None:
     """
-    Run a single demonstration point reproducing the neutron lifetime discrepancy.
+    Demonstrate the neutron lifetime discrepancy at a single SDCR point.
     """
     tau_bottle = effective_lifetime_bottle(params)
     tau_beam = effective_lifetime_beam(params)
@@ -81,54 +87,46 @@ def run_single_point_demo(params: NeutronLifetimeParameters) -> None:
     print(f"Δτ (beam − bottle)           : {delta_tau:.3f} s\n")
 
 
-def run_epsilon_sweep(
-    params: NeutronLifetimeParameters,
-    eps_range=(1e-5, 3e-4),
-    num_points=100
-) -> None:
-    """
-    Sweep the SDCR modulation parameter ε and visualize the induced discrepancy.
-    """
-    eps_values = np.linspace(eps_range[0], eps_range[1], num_points)
+# ---------------------------------------------------------------------
+# Parameter sweep using shared SDCR infrastructure
+# ---------------------------------------------------------------------
 
-    tau_bottle_vals = []
-    tau_beam_vals = []
-    delta_vals = []
+def run_sdcr_parameter_sweep(params: NeutronLifetimeParameters) -> None:
+    """
+    Sweep the SDCR modulation parameter ε and visualize the induced
+    neutron lifetime discrepancy using the shared parameter sweep utility.
+    """
 
-    for eps in eps_values:
+    def bottle_model(epsilon: float) -> float:
         p = NeutronLifetimeParameters(
             tau_intrinsic=params.tau_intrinsic,
-            epsilon=eps,
+            epsilon=epsilon,
             alpha_bottle=params.alpha_bottle,
             beta_beam=params.beta_beam,
         )
-        tb = effective_lifetime_bottle(p)
-        tm = effective_lifetime_beam(p)
+        return effective_lifetime_bottle(p)
 
-        tau_bottle_vals.append(tb)
-        tau_beam_vals.append(tm)
-        delta_vals.append(tm - tb)
+    def beam_model(epsilon: float) -> float:
+        p = NeutronLifetimeParameters(
+            tau_intrinsic=params.tau_intrinsic,
+            epsilon=epsilon,
+            alpha_bottle=params.alpha_bottle,
+            beta_beam=params.beta_beam,
+        )
+        return effective_lifetime_beam(p)
 
-    # Plot results
-    plt.figure(figsize=(8, 5))
-    plt.plot(eps_values, tau_bottle_vals, label="Bottle lifetime")
-    plt.plot(eps_values, tau_beam_vals, label="Beam lifetime")
-    plt.xlabel("SDCR modulation parameter ε")
-    plt.ylabel("Effective neutron lifetime (s)")
-    plt.title("SDCR Geometric Bias in Neutron Lifetime Measurements")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
+    config = SweepConfig(
+        epsilon_range=(1e-5, 3e-4),
+        num_points=120,
+        ylabel="Effective neutron lifetime (s)",
+        title="SDCR Geometric Bias in Neutron Lifetime Measurements"
+    )
 
-    plt.figure(figsize=(8, 5))
-    plt.plot(eps_values, delta_vals, label="Δτ = τ_beam − τ_bottle")
-    plt.xlabel("SDCR modulation parameter ε")
-    plt.ylabel("Lifetime discrepancy Δτ (s)")
-    plt.title("Emergent Neutron Lifetime Discrepancy from SDCR Geometry")
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
+    eps_b, tau_bottle_vals = run_parameter_sweep(bottle_model, config)
+    eps_m, tau_beam_vals = run_parameter_sweep(beam_model, config)
+
+    plot_sweep(eps_b, tau_bottle_vals, config, label="Bottle lifetime")
+    plot_sweep(eps_m, tau_beam_vals, config, label="Beam lifetime")
 
 
 # ---------------------------------------------------------------------
@@ -136,7 +134,6 @@ def run_epsilon_sweep(
 # ---------------------------------------------------------------------
 
 if __name__ == "__main__":
-    # Default parameters chosen to reproduce ~8 s discrepancy
     params = NeutronLifetimeParameters(
         tau_intrinsic=887.0,
         epsilon=1.0e-4,
@@ -145,4 +142,4 @@ if __name__ == "__main__":
     )
 
     run_single_point_demo(params)
-    run_epsilon_sweep(params)
+    run_sdcr_parameter_sweep(params)
