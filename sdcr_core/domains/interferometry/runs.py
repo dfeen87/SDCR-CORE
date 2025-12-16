@@ -1,4 +1,4 @@
-# domains/interferometry/run.py
+# domains/interferometry/runs.py
 """
 Runnable interferometry domain demo.
 
