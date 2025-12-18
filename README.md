@@ -69,7 +69,7 @@ Any algebraic structures (e.g. quaternionic or octonionic bookkeeping) are used 
 
 ## Repository Structure
 
-The repository separates the core SDCR framework from domain-level demonstrations, examples, tests, and visualization utilities.
+The repository is organized to clearly separate executable SDCR logic, validated visualizations, illustrative figures, and supporting artifacts.
 
 ```
 sdcr-core/
@@ -79,7 +79,7 @@ sdcr-core/
 │   ├── symmetry.py          # Symmetry selectors Π_sym
 │   ├── recovery.py          # Recovery / null-limit logic
 │   ├── observables.py       # Coherence and phase extraction
-│   └── utils.py             # Shared helpers
+│   └── utils.py             # Shared helpers and validation
 │
 ├── algebra/
 │   ├── quaternionic.py      # Internal bookkeeping (non-physical)
@@ -97,10 +97,13 @@ sdcr-core/
 │   └── visualize_sdcr.py    # Hardened, read-only visualization
 │
 ├── scripts/
-│   └── run_visualizer.py    # Single-entry launcher
+│   └── run_visualizer.py    # Single-entry launcher for visualization
 │
 ├── notebooks/
 │   └── sdcr_interferometry_overview.ipynb  # Read-only notebook overview
+│
+├── figures/
+│   └── sdcr_core_overview.py  # Illustrative overview figure (non-executable)
 │
 ├── tests/
 │   ├── test_recovery.py
@@ -112,6 +115,15 @@ sdcr-core/
 ├── LICENSE
 └── requirements.txt
 ```
+
+### Notes on Structure
+
+- `core/`, `domains/`, `examples/`, and `tests/` contain **validated, executable SDCR logic**
+- `notebooks/` provides **read-only, explanatory visual references**
+- `figures/` contains **illustrative, presentation-grade overview graphics**  
+  (not part of SDCR execution or validation)
+
+This separation preserves scientific cleanliness and avoids conflating illustration with verification.
 
 ---
 
