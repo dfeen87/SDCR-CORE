@@ -34,11 +34,11 @@ if __name__ == "__main__" and "core" not in sys.modules:
     if repo_root not in sys.path:
         sys.path.insert(0, repo_root)
 
-from core.observables import coherence_01, phase_01, time_series
-from core.recovery import build_selector, solve_with_recovery
-from core.symmetry import pauli_z_symmetry
+from sdcr_core.core.observables import coherence_01, phase_01, time_series
+from sdcr_core.core.recovery import build_selector, solve_with_recovery
+from sdcr_core.core.symmetry import pauli_z_symmetry
 
-from .model import InterferometerParams, build_interferometer_model, default_initial_state
+from .models import InterferometerParams, build_interferometer_model, default_initial_state
 
 try:
     from .plots import plot_phase, plot_visibility

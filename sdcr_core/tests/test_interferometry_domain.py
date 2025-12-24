@@ -11,11 +11,15 @@ No domain-specific physics claims are asserted beyond consistency.
 
 import numpy as np
 
-from core.recovery import build_selector, solve_with_recovery, recovery_check
-from core.symmetry import pauli_z_symmetry
-from core.observables import coherence_01
+from sdcr_core.core.recovery import (
+    build_selector,
+    solve_with_recovery,
+    recovery_check,
+)
+from sdcr_core.core.symmetry import pauli_z_symmetry
+from sdcr_core.core.observables import coherence_01
 
-from domains.interferometry.model import (
+from sdcr_core.domains.interferometry.models import (
     InterferometerParams,
     build_interferometer_model,
     default_initial_state,
@@ -31,6 +35,7 @@ def test_interferometry_recovery_limit():
         phase_rate=1.0,
         mixing_rate=0.0,
         dephasing_rate=0.25,
+        mixing_dephasing_rate=0.15,
     )
 
     rho0 = default_initial_state()
@@ -79,6 +84,7 @@ def test_interferometry_sdcr_differs_from_baseline():
         phase_rate=1.0,
         mixing_rate=0.0,
         dephasing_rate=0.25,
+        mixing_dephasing_rate=0.15,
     )
 
     rho0 = default_initial_state()

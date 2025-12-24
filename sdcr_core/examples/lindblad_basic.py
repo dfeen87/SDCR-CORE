@@ -13,10 +13,10 @@ The goal is clarity and falsifiability, not performance.
 import numpy as np
 import matplotlib.pyplot as plt
 
-from core.dynamics import solve_lindblad
-from core.symmetry import pauli_z_symmetry
-from core.recovery import build_selector, solve_with_recovery
-from core.observables import (
+from sdcr_core.core.dynamics import solve_lindblad
+from sdcr_core.core.symmetry import pauli_z_symmetry
+from sdcr_core.core.recovery import build_selector, solve_with_recovery
+from sdcr_core.core.observables import (
     coherence_01,
     phase_01,
     time_series,
@@ -141,4 +141,3 @@ print("Final coherence values:")
 print(f"Baseline : {coh_base[-1]:.6f}")
 print(f"SDCR     : {coh_sdcr[-1]:.6f}")
 print(f"Recovery : {coh_rec[-1]:.6f}")
-

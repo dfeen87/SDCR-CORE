@@ -8,7 +8,7 @@ behaves as a true projector on operator space.
 
 import numpy as np
 
-from core.symmetry import (
+from sdcr_core.core.symmetry import (
     projector_from_basis,
     identity_projector,
     pauli_z_symmetry,
@@ -57,4 +57,3 @@ def test_projector_preserves_diagonal_components():
     O_proj = P(O)
 
     assert np.allclose(O_proj, O)
-
