@@ -7,23 +7,19 @@ used to explore symmetry-driven, measurement-accessible phase effects
 within the SDCR framework.
 
 Public API:
-- InterferometerParameters
-- geometric_phase_shift
-- total_phase
-- fringe_intensity
+- InterferometerParams
+- build_interferometer_model
+- default_initial_state
 """
 
 from .models import (
-    InterferometerParameters,
-    geometric_phase_shift,
-    total_phase,
-    fringe_intensity,
+    InterferometerParams,
+    build_interferometer_model,
+    default_initial_state,
 )
 
 __all__ = [
-    "InterferometerParameters",
-    "geometric_phase_shift",
-    "total_phase",
-    "fringe_intensity",
+    "InterferometerParams",
+    "build_interferometer_model",
+    "default_initial_state",
 ]
-

@@ -12,9 +12,13 @@ not a unit test.
 
 import numpy as np
 
-from core.dynamics import solve_lindblad
-from core.symmetry import pauli_z_symmetry
-from core.recovery import build_selector, solve_with_recovery, recovery_check
+from sdcr_core.core.dynamics import solve_lindblad
+from sdcr_core.core.symmetry import pauli_z_symmetry
+from sdcr_core.core.recovery import (
+    build_selector,
+    solve_with_recovery,
+    recovery_check,
+)
 
 
 def run_null_test(verbose: bool = True) -> bool:
@@ -87,4 +91,3 @@ if __name__ == "__main__":
     success = run_null_test(verbose=True)
     if not success:
         raise SystemExit(1)
-

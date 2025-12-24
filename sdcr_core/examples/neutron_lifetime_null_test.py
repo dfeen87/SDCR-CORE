@@ -18,7 +18,7 @@ modulation is explicitly introduced.
 
 from dataclasses import dataclass
 
-from parameter_sweep import (
+from sdcr_core.examples.parameter_sweep import (
     SweepConfig,
     run_parameter_sweep,
     plot_sweep,

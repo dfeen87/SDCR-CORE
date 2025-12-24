@@ -19,7 +19,7 @@ This file serves as a first concrete, falsifiable SDCR exemplar.
 from dataclasses import dataclass
 import numpy as np
 
-from parameter_sweep import (
+from sdcr_core.examples.parameter_sweep import (
     SweepConfig,
     run_parameter_sweep,
     plot_sweep,

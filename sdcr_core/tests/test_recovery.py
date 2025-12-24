@@ -9,9 +9,13 @@ to the baseline Lindblad dynamics within numerical tolerance.
 
 import numpy as np
 
-from core.dynamics import solve_lindblad
-from core.symmetry import pauli_z_symmetry
-from core.recovery import build_selector, solve_with_recovery, recovery_check
+from sdcr_core.core.dynamics import solve_lindblad
+from sdcr_core.core.symmetry import pauli_z_symmetry
+from sdcr_core.core.recovery import (
+    build_selector,
+    solve_with_recovery,
+    recovery_check,
+)
 
 
 def test_recovery_limit_matches_baseline():
@@ -75,4 +79,3 @@ def test_recovery_limit_matches_baseline():
         rhos_baseline=rhos_baseline,
         tol=1e-8,
     ), "Recovery limit failed: SDCR-disabled evolution does not match baseline."
-

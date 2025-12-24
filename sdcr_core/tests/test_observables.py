@@ -8,7 +8,7 @@ behave consistently and return valid numerical values.
 
 import numpy as np
 
-from core.observables import (
+from sdcr_core.core.observables import (
     purity,
     coherence_01,
     phase_01,
@@ -45,4 +45,3 @@ def test_offdiagonal_norm_zero_for_diagonal_state():
     rho = np.diag([0.7, 0.3]).astype(np.complex128)
 
     assert offdiagonal_norm(rho) == 0.0
-

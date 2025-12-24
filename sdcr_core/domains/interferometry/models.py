@@ -56,11 +56,16 @@ class InterferometerParams:
 
     dephasing_rate:
         Standard dephasing rate in the path basis (σ_z Lindblad operator).
+
+    mixing_dephasing_rate:
+        Optional dephasing rate that acts in the σ_x basis to introduce
+        off-diagonal noise channels.
     """
 
     phase_rate: float = 1.0
     mixing_rate: float = 0.0
     dephasing_rate: float = 0.3
+    mixing_dephasing_rate: float = 0.0
 
 
 def build_interferometer_model(params: InterferometerParams) -> Tuple[ComplexArray, List[ComplexArray]]:
@@ -83,10 +88,14 @@ def build_interferometer_model(params: InterferometerParams) -> Tuple[ComplexArr
     # L = sqrt(gamma) * σ_z  (standard dephasing channel)
     if params.dephasing_rate < 0:
         raise ValueError("dephasing_rate must be nonnegative.")
+    if params.mixing_dephasing_rate < 0:
+        raise ValueError("mixing_dephasing_rate must be nonnegative.")
 
     L_ops: List[ComplexArray] = []
     if params.dephasing_rate > 0:
         L_ops.append(np.sqrt(params.dephasing_rate) * sz)
+    if params.mixing_dephasing_rate > 0:
+        L_ops.append(np.sqrt(params.mixing_dephasing_rate) * sx)
 
     return H, L_ops
 
