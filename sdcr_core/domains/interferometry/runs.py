@@ -42,7 +42,7 @@ from .models import InterferometerParams, build_interferometer_model, default_in
 
 try:
     from .plots import plot_phase, plot_visibility
-except Exception:  # pragma: no cover
+except ImportError:  # pragma: no cover
     plot_phase = None
     plot_visibility = None
 
