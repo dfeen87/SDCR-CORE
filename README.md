@@ -208,7 +208,14 @@ Interfaces and internal structure may evolve incrementally as validated use case
 
 ## License
 
-This software is released under the **MIT License**, to encourage open scientific use, independent testing, and reproducibility.
+MIT License - see [LICENSE](LICENSE) file for details
+
+---
+
+## Acknowledgements
+
+I would like to acknowledge **Microsoft Copilot**, **Anthropic Claude**, and **OpenAI ChatGPT** for their meaningful assistance in refining concepts, improving clarity, and strengthening the overall quality of this work.
+
 
 ---
 
