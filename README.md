@@ -1,4 +1,8 @@
 # SDCR-CORE
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/dfeen87/SDCR-CORE/actions/workflows/ci.yml/badge.svg)](https://github.com/dfeen87/SDCR-CORE/actions/workflows/ci.yml)
+[![Version](https://img.shields.io/badge/version-0.2.0-informational.svg)](CITATION.cff)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 
 **Symmetry-Driven Coherence Restoration — Reference Implementation**
 
