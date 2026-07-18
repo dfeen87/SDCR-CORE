@@ -91,7 +91,7 @@ def run_locked_qubit_benchmark(
     if times is None:
         times = np.linspace(0.0, 10.0, 101)
 
-    rho0 = np.array([[1.0, 0.0], [0.0, 0.0]], dtype=complex) # |0><0|
+    rho0 = np.array([[0.5, 0.5], [0.5, 0.5]], dtype=complex) # |+><+|
 
     # Assemble Liouvillians
     L_protected = assemble_liouvillian(omega, eta_sym, gamma_z, gamma_x, gamma_y)
