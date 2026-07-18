@@ -147,8 +147,77 @@ def test_full_benchmark_and_io():
         assert os.path.exists(os.path.join(test_dir, "summary_metrics.json"))
         assert os.path.exists(os.path.join(test_dir, "trajectories.csv"))
         assert os.path.exists(os.path.join(test_dir, "liouvillian_spectrum.csv"))
-        assert os.path.exists(os.path.join(test_dir, "manifest.json"))
+        assert os.path.exists(os.path.join(test_dir, "SHA256_MANIFEST.json"))
 
     finally:
         if os.path.exists(test_dir):
             shutil.rmtree(test_dir)
+
+
+def test_null_battery():
+    from sdcr_core.core.null_battery import run_null_battery
+
+    # Run a baseline benchmark
+    result = run_locked_qubit_benchmark(eta_sym=1.0)
+
+    # Run the null battery with fewer trials for fast unit testing
+    df, raw = run_null_battery(result, num_random_axis_trials=10)
+
+    # Verify selectors exist in df
+    unique_selectors = df["selector_type"].unique()
+    assert "norm_matched" in unique_selectors
+    assert "channel_permutation" in unique_selectors
+    assert "eta0_baseline" in unique_selectors
+    assert "random_axis_trial_0" in unique_selectors
+    assert "random_axis_trial_9" in unique_selectors
+
+    # Check shape
+    # 3 selectors + 10 random trials = 13 selectors * 101 times = 1313 rows
+    assert df.shape[0] == 1313
+    assert "coherence" in df.columns
+    assert "auc" in df.columns
+
+    # Verify that norm_matched has the same norm of the dissipator
+    # D_sdcr norm vs D_norm_matched norm
+    from sdcr_core.core.gksl_locked_qubit import vectorized_dissipator
+    D_z = vectorized_dissipator(SIGMA_Z)
+    D_x = vectorized_dissipator(SIGMA_X)
+    D_y = vectorized_dissipator(SIGMA_Y)
+
+    eta_sym = result["eta_sym"]
+    gamma_z = result["gamma_z"]
+    gamma_x = result["gamma_x"]
+    gamma_y = result["gamma_y"]
+
+    D_sdcr = gamma_z * D_z + (1.0 - eta_sym) * gamma_x * D_x + (1.0 - eta_sym) * gamma_y * D_y
+    norm_sdcr = la.norm(D_sdcr, 'fro')
+
+    # Extract the norm-matched Liouvillian from raw
+    L_nm = raw["norm_matched"]["L"]
+    # Subtract L_coh from L_nm to get the dissipator part
+    H = (result["omega"] / 2.0) * SIGMA_Z
+    from sdcr_core.core.gksl_locked_qubit import vectorized_commutator
+    L_coh = vectorized_commutator(H)
+    D_nm = L_nm - L_coh
+
+    norm_nm = la.norm(D_nm, 'fro')
+    assert np.isclose(norm_sdcr, norm_nm)
+
+
+def test_percentile_and_validation():
+    # Run benchmark
+    result = run_locked_qubit_benchmark(eta_sym=1.0)
+
+    # Check that all required metrics are in results["metrics"]
+    metrics = result["metrics"]
+    assert "percentile_fraction" in metrics
+    assert "target_percentile" in metrics
+    assert "coherence_auc_norm_matched" in metrics
+    assert "coherence_auc_channel_permutation" in metrics
+    assert "coherence_auc_eta0_baseline" in metrics
+    assert "null_auc_distribution" in metrics
+
+    # Verify values are sensible
+    assert 0.0 <= metrics["percentile_fraction"] <= 1.0
+    assert 0.0 <= metrics["target_percentile"] <= 100.0
+    assert len(metrics["null_auc_distribution"]) == 100
