@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sdcr-core"
+version = "0.2.0"
+description = "Locked reference benchmark for symmetry-selector specificity in standard open-system dynamics."
+authors = [
+  { name = "Don Michael" },
+  { name = "Marcel" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "scipy",
+  "matplotlib",
+  "pandas"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sdcr_core*"]

@@ -7,18 +7,6 @@ This software provides tools to model, compare, and validate SDCR effects within
 
 ---
 
-## White Paper
-
-For the complete theoretical foundation, mathematical derivations, and phenomenological predictions, see:
-
-**Symmetry-Driven Coherence Restoration: Geometric Phase Control, Open-System Dynamics, and Phenomenological Signatures**
-
-> Krüger, M., & Feeney, D. (2025).  
-> *Symmetry-Driven Coherence Restoration: Geometric Phase Control, Open-System Dynamics, and Phenomenological Signatures.*  
-> Zenodo. [https://doi.org/10.5281/zenodo.17942413](https://doi.org/10.5281/zenodo.17942413)
-
----
-
 ## Conceptual Basis
 
 **SDCR is not a new dynamical law.**  
@@ -35,194 +23,62 @@ All dynamics remain fully compatible with conventional open-system quantum theor
 
 ---
 
-## What This Software Does
-
-This repository provides tools to:
-
-- Define open quantum system dynamics using standard generators (Lindblad-type models)
-- Apply explicit symmetry-selection operators Π<sub>sym</sub> to reduced dynamics
-- Compare baseline decoherence against symmetry-aligned evolution
-- Extract observable quantities such as:
-  - coherence decay
-  - bounded phase offsets
-- Demonstrate the recovery limit, where SDCR effects vanish when symmetry alignment is disabled
-- Generate explicit null tests suitable for independent verification
-
-The implementation prioritizes **clarity, traceability, and falsifiability** over performance or optimization.
-
----
-
-## What This Software Does Not Do
-
-This project explicitly does **not**:
-
-- Introduce new particles, interactions, or collapse mechanisms
-- Modify the Schrödinger equation or violate global unitarity
-- Claim performance improvements, speedups, or technological superiority
-- Provide active quantum error correction or feedback control
-- Serve as a general-purpose quantum simulator
-- Make claims beyond those stated in the associated paper
-
-Any algebraic structures (e.g. quaternionic or octonionic bookkeeping) are used strictly as internal organizational tools and are never interpreted as physical degrees of freedom.
-
----
-
 ## Repository Structure
 
-The repository is organized to clearly separate executable SDCR logic, validated visualizations, illustrative figures, and supporting artifacts.
+The repository is organized as follows:
 
 ```
 sdcr-core/
-│
-├── core/
-│   ├── dynamics.py          # Open-system generators (Lindblad)
-│   ├── symmetry.py          # Symmetry selectors Π_sym
-│   ├── recovery.py          # Recovery / null-limit logic
-│   ├── observables.py       # Coherence and phase extraction
-│   └── utils.py             # Shared helpers and validation
-│
-├── algebra/
-│   ├── quaternionic.py      # Internal bookkeeping (non-physical)
-│   └── octonionic.py        # Optional non-associative organization
-│
-├── domains/
-│   └── interferometry/
-│       ├── model.py         # Two-path interferometer mapping
-│       ├── run.py           # Baseline vs SDCR vs recovery
-│       └── plots.py         # Phase and visibility plots
-│
-├── examples/
-│   ├── lindblad_basic.py    # Minimal SDCR demonstration
-│   ├── null_test.py         # Explicit recovery / null test
-│   └── visualize_sdcr.py    # Hardened, read-only visualization
-│
-├── scripts/
-│   └── run_visualizer.py    # Single-entry launcher for visualization
-│
-├── notebooks/
-│   └── sdcr_interferometry_overview.ipynb  # Read-only notebook overview
-│
-├── figures/
-│   └── sdcr_core_overview.py  # Illustrative overview figure (non-executable)
-│
-├── tests/
-│   ├── test_recovery.py
-│   ├── test_symmetry.py
-│   ├── test_observables.py
-│   └── test_interferometry_domain.py
-│
-├── README.md
-├── LICENSE
-└── requirements.txt
+  pyproject.toml
+  README.md
+  sdcr_core/
+    __init__.py
+    core/
+      __init__.py
+      gksl_locked_qubit.py
+      symmetry_selector.py
+      null_battery.py
+      liouvillian_spectrum.py
+      validation.py
+    io/
+      __init__.py
+      outputs.py
+      manifest.py
+    run.py
+  results/
+  figures/
+  notebooks/
 ```
 
-### Notes on Structure
-
-- `core/`, `domains/`, `examples/`, and `tests/` contain **validated, executable SDCR logic**
-- `notebooks/` provides **read-only, explanatory visual references**
-- `figures/` contains **illustrative, presentation-grade overview graphics**  
-  (not part of SDCR execution or validation)
-
-This separation preserves scientific cleanliness and avoids conflating illustration with verification.
+- `sdcr_core/` is the **package namespace**
+- `core/` holds the physics + benchmark logic
+- `io/` handles saving CSVs, JSON, ZIP, manifest
+- `run.py` becomes the one-click entrypoint
+- `results/` and `figures/` are output folders
+- `notebooks/` holds the Colab notebook
 
 ---
 
-## Visualization Philosophy
+## Installation
 
-SDCR-CORE includes visual inspection tools, not interactive dashboards.
+To install the package in editable mode:
 
-- Visualizations are **read-only**
-- All quantum states, operators, time grids, and observables are explicitly validated
-- No tunable parameters or sliders are exposed
-- Baseline, SDCR-enabled, and recovery evolutions are always shown together
-
-These tools are intended as figure-style companions to the theory, supporting inspection and reproducibility without expanding scope or interpretation.
+```bash
+pip install -e .
+```
 
 ---
 
-## Running the Software
+## Running the Benchmark
 
-### Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### Run core examples
+You can run the benchmark using the single entrypoint command:
 
 ```bash
-python examples/lindblad_basic.py
-python examples/null_test.py
+python -m sdcr_core.run
 ```
-
-### Run the interferometry domain demo
-
-```bash
-python -m domains.interferometry.run
-```
-
-### Run the hardened visualization (recommended)
-
-Single command from repository root:
-
-```bash
-python scripts/run_visualizer.py
-```
-
-This launches the validated, read-only visualization showing:
-
-- coherence decay (baseline vs SDCR vs recovery)
-- bounded SDCR phase offset
-- explicit recovery limit
-
----
-
-## Reproducibility and Falsifiability
-
-A core design principle of `sdcr-core` is **explicit falsifiability**.
-
-Every SDCR effect implemented here:
-
-- Depends on exposed control parameters
-- Can be switched off to recover standard decoherence
-- Produces predictions that vanish in the symmetry-free limit
-- Can be tested against null results without ambiguity
-
-The software is designed to make disagreement easy and rigorous, not to enforce a particular interpretation.
-
----
-
-## Project Status
-
-This repository represents the first stable software realization of the SDCR framework.
-
-Development proceeds cautiously, with emphasis on:
-
-- correctness
-- transparency
-- alignment with the published theory
-
-Interfaces and internal structure may evolve incrementally as validated use cases emerge.
 
 ---
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details
-
----
-
-## Acknowledgements
-
-I would like to acknowledge **Microsoft Copilot**, **Anthropic Claude**, and **OpenAI ChatGPT** for their meaningful assistance in refining concepts, improving clarity, and strengthening the overall quality of this code.
-
-
----
-
-## Citation
-
-If you use this software in academic work, please cite:
-
-> Krüger, M., & Feeney, D. (2025).  
-> *Symmetry-Driven Coherence Restoration: Geometric Phase Control, Open-System Dynamics, and Phenomenological Signatures.*  
-> Zenodo. [https://doi.org/10.5281/zenodo.17942413](https://doi.org/10.5281/zenodo.17942413)
+MIT License
